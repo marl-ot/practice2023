@@ -21,10 +21,10 @@ def connection():
             password=PASSWORD_DB,
             database=NAME_DB
         )
-        print('[INFO] Successfully connectiong to database ', e)
+        print('[INFO] Успешное подключение к базе данных', e)
 
     except Exception as e:
-        print('[INFO] Error while connectiong to database ', e)
+        print('[INFO] Ошибка в процессе подключения к базе данных', e)
     return connection
 
 
@@ -55,7 +55,7 @@ def create_database(name):
     # Параметры для подключения к новой базе данных banks_test
     db_params["database"] = name
 
-    print(f"[INFO] Database {name} successfully created")
+    print(f"[INFO] База данных {name} успешно создана")
 
 
 def create_tables():
@@ -198,7 +198,7 @@ def create_tables():
             cursor.execute(query)
             conn.commit()
 
-    print("[INFO] Tables successfully created")
+    print("[INFO] Таблицы успешно созданы")
     conn.close()
 
 
@@ -334,7 +334,7 @@ def data_to_tables():
         conn.commit()
     
 
-    print("[INFO] Data to tables successfully added")
+    print("[INFO] Данные в таблицы успешно добавлены")
     conn.close()
 
 
