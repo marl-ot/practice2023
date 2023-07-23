@@ -2,8 +2,8 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 from vulns.sql_injection.sql_injection_login import sql_injection_login_page, sql_injection_login_api
 from vulns.sql_injection.sql_injection_search import sql_injection_search_page
-from vulns.xssinjection.xss_reflected import xss_reflected_page
-from vulns.xssinjection.xss_stored import xss_stored_page, xss_stored_api
+from vulns.xss_injection.xss_reflected import xss_reflected_page
+from vulns.xss_injection.xss_stored import xss_stored_page, xss_stored_api
 from vulns.iframe_injection.iframe_injection import iframe_injection_page
 from db_helper import db_helper
 from db_models import db_models
