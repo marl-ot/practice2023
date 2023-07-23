@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="section">
+  <h1 class="title">Добро пожаловать в уязвимое Python/Flask веб-приложение</h1>
+
+  <p class="subtitle">
+    Это приложение содержит XSS, SQL-injections и iframe-injections уязвимости, 
+    жестко запрограммированные для использования в качестве доказательства 
+    о проведенной работе над защитой веб-приложения от различного рода инъекций
+    с примерением SAST (статического тестирвоания безопасности приложений).
+  </p>
+</section>
+{% endblock %}
+
+
+{% block js %}
+
+<script>
+  if (urlParams.reset_db) {
+    alert('База данных была сброшена!')
+  }
+</script>
+
+{% endblock %}

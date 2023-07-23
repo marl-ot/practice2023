@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="section">
+  <h1 class="title">Отражённый XSS</h1>
+
+  
+
+  <div class="block">
+    <p>
+      Результат для параметра <i>search</i>:
+      
+      {% autoescape false %}
+        {{ request.args.get('search') }}
+      {% endautoescape %}
+    </p>
+  </div>
+
+  <div class="block">
+    <form action="/xss/reflected" method="get" style="max-width: 300px;">
+      <div class="field">
+        <label class="label">Поиск</label>
+        <div class="control">
+          <input class="input" name="search" type="text" placeholder="product...">
+        </div>
+      </div>
+      
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-link">Поиск</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Имя</th>
+          <th>Цена</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+          <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
