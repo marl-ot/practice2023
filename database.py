@@ -338,6 +338,18 @@ def data_to_tables():
     conn.close()
 
 
-# create_database(NAME_DB)
-# create_tables()
-# data_to_tables()
+def delete_database(del_db_name):
+    db_params = {
+        "host": HOST_DB,
+        "user": USER_DB,
+        "password": PASSWORD_DB
+    }
+
+    conn = psycopg2.connect(**db_params)
+    conn.autocommit = True
+    conn = connection()
+    with conn.cursor() as cursor:
+        cursor.execute(f'SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = {del_db_name};')
+        cursor.execute(f'DROP DATABASE IF EXISTS {del_db_name}')
+    conn.close()
+    print(f'[INFO] База данных {del_db_name} успешно удалена')
