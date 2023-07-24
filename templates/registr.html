@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>RРегистрация</h1>
+    <form method="POST">
+        {{ form.csrf_token }}
+        <div>
+            <label for="login">Логин:</label>
+            <input type="text" id="login" name="login" required>
+        </div>
+        <div>
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <label for="phone_number">Номер телефона:</label>
+            <input type="text" id="phone_number" name="phone_number" required>
+        </div>
+        <div>
+            <label for="email">Почта:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+{% endblock %}
