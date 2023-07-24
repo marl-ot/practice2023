@@ -56,13 +56,25 @@
     </div>
 
     <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="buttons">
-          <a class="button is-light" onclick="resetDatabase()" id="btnResetDatabase">
-            Сбросить базу данных
+      
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Ролевой доступ
           </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="{{ url_for('sql_injection_login') }}">
+              Оператор
+            </a>
+            <a class="navbar-item" href="{{ url_for('sql_injection_search') }}?q=">
+              Менеджер
+            </a>
+            <a class="navbar-item" href="{{ url_for('sql_injection_search') }}?q=">
+              Клиент
+            </a>
+          </div>
         </div>
-      </div>
+
     </div>
   </div>
 </nav>
