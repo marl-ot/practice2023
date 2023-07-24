@@ -153,9 +153,9 @@ def roles_page(request):
         map(
             lambda ip: {
                 'international_passport_id': ip[0],
-                'lastname': ip[1],
-                'firstname': ip[2],
                 'surname': ip[3],
+                'firstname': ip[2],
+                'lastname': ip[1],
                 'international_passport_series': ip[4],
                 'international_passport_number': ip[5],
                 'international_passport_issue_date': ip[6],
