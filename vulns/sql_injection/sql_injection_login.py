@@ -1,4 +1,5 @@
 from flask import render_template
+from database import execute_read
 import hashlib
 
 
@@ -15,19 +16,26 @@ def sql_injection_login_api(request, app):
 
     username = form.get('username')
     password = form.get('password')
-    password_hash = _hash_password(password)
+    password_hash = password #_hash_password(password)
 
-    sql = f"SELECT * FROM users WHERE username='{username}' AND password='{password_hash}'"
-
-    db_result = app.db_helper.execute_read(sql)
+    sql = f"SELECT * FROM persons WHERE login='{username}' AND password_hash='{password_hash}'"
+    # ' OR 1=1; --
+    
+    db_result = execute_read(sql)
 
     user = list(
         map(
-            lambda u: {
-                'id': u[0],
-                'username': u[1],
-                'password': u[2]
-            }, 
+            lambda p: {
+                'id': p[0],
+                'login': p[1],
+                'password': p[2],
+                'passport_id': p[3],
+                'inn': p[4],
+                'phone_number': p[5],
+                'snils': p[6],
+                'email': p[7],
+                'person_role_id': p[8],
+            },
             db_result
         )
     )[0] if len(db_result) > 0 else None
@@ -39,6 +47,6 @@ def sql_injection_login_api(request, app):
     )
 
 
-def _hash_password(password):
-    md5_pass = hashlib.md5(password.encode('utf-8')).hexdigest()
-    return md5_pass
+# def _hash_password(password):
+#     md5_pass = hashlib.md5(password.encode('utf-8')).hexdigest()
+#     return md5_pass
