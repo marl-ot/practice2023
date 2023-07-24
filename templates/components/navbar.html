@@ -1,5 +1,4 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
-
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
       <a class="navbar-item" href="{{ url_for('home') }}">
@@ -32,31 +31,31 @@
           </a>
         </div>
       </div>
+
       <a class="navbar-item" href="{{ url_for('iframe_injection') }}?page=/static/pages/about.html">
         IFrame-инъекция
       </a>
     </div>
 
-    <div class="navbar-end">
-      
+    <!-- <div class="navbar-end">
 
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            Ролевой доступ
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Ролевой доступ
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="{{ url_for('role_access_model') }}">
+            Оператор
           </a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item" href="{{ url_for('role_access_model') }}">
-              Оператор
-            </a>
-            <a class="navbar-item" href="{{ url_for('role_access_model') }}">
-              Менеджер
-            </a>
-            <a class="navbar-item" href="{{ url_for('role_access_model') }}">
-              Клиент
-            </a>
-          </div>
+          <a class="navbar-item" href="{{ url_for('role_access_model') }}">
+            Менеджер
+          </a>
+          <a class="navbar-item" href="{{ url_for('role_access_model') }}">
+            Клиент
+          </a>
         </div>
-
-    </div>
+      </div>
+    </div> -->
   </div>
 </nav>
