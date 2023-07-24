@@ -38,16 +38,28 @@
       <thead>
         <tr>
           <th>№</th>
-          <th>Имя</th>
-          <th>Цена</th>
+          <th>Логин</th>
+          <th>Пароль</th>
+          <th>Паспорт</th>
+          <th>ИНН</th>
+          <th>Номер телефона</th>
+          <th>СНИЛС</th>
+          <th>Почта</th>
+          <th>Роль</th>
         </tr>
       </thead>
       <tbody>
-        {% for product in products %}
+        {% for person in persons %}
           <tr>
-            <td>{{ product.id }}</td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.price }}</td>
+            <td>{{ person.id }}</td>
+            <td>{{ person.login }}</td>
+            <td>{{ person.password }}</td>
+            <td>{{ person.passport_id }}</td>
+            <td>{{ person.inn }}</td>
+            <td>{{ person.phone_number }}</td>
+            <td>{{ person.snils }}</td>
+            <td>{{ person.email }}</td>
+            <td>{{ person.person_role_id }}</td>
           </tr>
         {% endfor %}
       </tbody>
