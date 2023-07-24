@@ -1,6 +1,5 @@
 import os
-# from db_helper import db_helper
-from flask import Flask, render_template, request #, redirect, url_for
+from flask import Flask, render_template, request
 from vulns.sql_injection.sql_injection_login import sql_injection_login_page, sql_injection_login_api
 from vulns.sql_injection.sql_injection_search import sql_injection_search_page
 from vulns.xss_injection.xss_reflected import xss_reflected_page
@@ -23,7 +22,7 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/role_access_model', methods=['GET'])
+@app.route('/role_access_model', methods=['GET', 'POST'])
 def role_access_model():
     return roles_page(request)
 
