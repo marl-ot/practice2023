@@ -1,6 +1,5 @@
 from flask import render_template
 from database import execute_read
-import time
 
 
 def roles_page(request):
