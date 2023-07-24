@@ -23,30 +23,29 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/role-access-model', methods=['POST'])
-def reset_database():
-
-    return roles_page(request, app)
+@app.route('/role_access_model', methods=['GET'])
+def role_access_model():
+    return roles_page(request)
 
 
 @app.route('/sql-injection/login', methods=['GET', 'POST'])
 def sql_injection_login():
     if request.method == 'GET':
-        return sql_injection_login_page(request, app)
+        return sql_injection_login_page(request)
 
-    return sql_injection_login_api(request, app)
+    return sql_injection_login_api(request)
 
 
 @app.route('/sql-injection/search', methods=['GET'])
 def sql_injection_search():
-    return sql_injection_search_page(request, app)
+    return sql_injection_search_page(request)
     
 
 @app.route('/xss/reflected', methods=['GET'])
 def xss_reflected():
-    return xss_reflected_page(request, app)
+    return xss_reflected_page(request)
 
 
 @app.route('/iframe-injection', methods=['GET'])
 def iframe_injection():
-    return iframe_injection_page(request, app)
+    return iframe_injection_page(request)
