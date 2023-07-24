@@ -8,7 +8,7 @@ def sql_injection_search_page(request, app):
     sql = f"SELECT * FROM persons WHERE TRIM(login) LIKE '%{search}%'"
     # SELECT * FROM persons WHERE TRIM(login) LIKE '%{'; DROP TABLE persons WITH FORCE; --'}%'"
 
-    db_result = execute_read(sql)
+    db_result = execute_read(sql, app)
 
     persons = list(
         map(

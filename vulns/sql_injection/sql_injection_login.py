@@ -21,7 +21,7 @@ def sql_injection_login_api(request, app):
     sql = f"SELECT * FROM persons WHERE login='{username}' AND password_hash='{password_hash}'"
     # ' OR 1=1; --
     
-    db_result = execute_read(sql)
+    db_result = execute_read(sql, app)
 
     user = list(
         map(
