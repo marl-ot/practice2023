@@ -1,46 +1,332 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section class="section">
-    <h1 class="title" style="text-align: center;">Ролевое разграничение доступа</h1>
-  
-    <!-- <div class="block">
-      <form action="/sql-injection/search" method="get" style="max-width: 300px;">
-        <div class="field">
-          <label class="label">Поиск</label>
-          <div class="control">
-            <input class="input" name="q" type="text" placeholder="product...">
-          </div>
-        </div>
-        
-        <div class="field is-grouped">
-          <div class="control">
-            <button class="button is-link">Поиск</button>
-          </div>
-        </div>
-      </form>
-    </div> -->
-  
-    <div class="block">
-      <table class="table is-striped">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Имя</th>
-            <th>Цена</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for product in products %}
-            <tr>
-              <td>{{ product.id }}</td>
-              <td>{{ product.name }}</td>
-              <td>{{ product.price }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </section>
+<section class="section" style="text-align: center;">
+  <h1 class="title">Ролевое разграничение доступа</h1>
 
+  <!-- payment_account_types -->
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Тип платежного счета</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for payment_account_type in payment_account_types %}
+        <tr>
+          <td>{{ payment_account_type.payment_account_type_id }}</td>
+          <td>{{ payment_account_type.payment_account_type_name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- card_statuses -->
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Статус карты</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for card_status in card_statuses %}
+        <tr>
+          <td>{{ card_status.card_status_id }}</td>
+          <td>{{ card_status.card_status_name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- payment_accounts -->
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Номер платежного счета</th>
+          <th>Баланс</th>
+          <th>Тип платежного счета ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for payment_account in payment_accounts %}
+        <tr>
+          <td>{{ payment_account.payment_account_id }}</td>
+          <td>{{ payment_account.payment_account_number }}</td>
+          <td>{{ payment_account.balance }}</td>
+          <td>{{ payment_account.payment_account_type_id }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- worker_confirms -->
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Person ID</th>
+          <th>Подтверждение работника</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for worker_confirm in worker_confirms %}
+        <tr>
+          <td>{{ worker_confirm.worker_confirm_id }}</td>
+          <td>{{ worker_confirm.person_id }}</td>
+          <td>{{ worker_confirm.is_worker_confirm }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- transactions -->
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Счет отправителя</th>
+          <th>Счет получателя</th>
+          <th>Подтверждение работника ID</th>
+          <th>Сумма</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for transaction in transactions %}
+        <tr>
+          <td>{{ transaction.transaction_id }}</td>
+          <td>{{ transaction.transaction_from }}</td>
+          <td>{{ transaction.transaction_to }}</td>
+          <td>{{ transaction.worker_confirm_id }}</td>
+          <td>{{ transaction.amount }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- cards -->
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Номер карты</th>
+          <th>Дата окончания</th>
+          <th>CVV хэш</th>
+          <th>Статус карты ID</th>
+          <th>Тип карты ID</th>
+          <th>Person ID</th>
+          <th>Платежный счет ID</th>
+          <th>Активность</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for card in cards %}
+        <tr>
+          <td>{{ card.card_id }}</td>
+          <td>{{ card.card_number }}</td>
+          <td>{{ card.end_date }}</td>
+          <td>{{ card.CVV_hash }}</td>
+          <td>{{ card.card_status_id }}</td>
+          <td>{{ card.card_type_id }}</td>
+          <td>{{ card.person_id }}</td>
+          <td>{{ card.payment_account_id }}</td>
+          <td>{{ card.is_active }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- card_types -->
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Тип карты</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for card_type in card_types %}
+        <tr>
+          <td>{{ card_type.card_type_id }}</td>
+          <td>{{ card_type.card_type_name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- persons -->
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Логин</th>
+          <th>Пароль</th>
+          <th>Паспорт ID</th>
+          <th>ИНН</th>
+          <th>Номер телефона</th>
+          <th>СНИЛС</th>
+          <th>Почта</th>
+          <th>Роль ID</th>
+          <th>Хэш секретного слова</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for person in persons %}
+        <tr>
+          <td>{{ person.person_id }}</td>
+          <td>{{ person.login }}</td>
+          <td>{{ person.password_hash }}</td>
+          <td>{{ person.passport_id }}</td>
+          <td>{{ person.INN }}</td>
+          <td>{{ person.phone_number }}</td>
+          <td>{{ person.SNILS }}</td>
+          <td>{{ person.email }}</td>
+          <td>{{ person.person_role_id }}</td>
+          <td>{{ person.secret_word_hash }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- passports -->
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Фамилия</th>
+          <th>Имя</th>
+          <th>Отчество</th>
+          <th>Серия паспорта</th>
+          <th>Номер паспорта</th>
+          <th>Дата выдачи</th>
+          <th>Кем выдан</th>
+          <th>Дата рождения</th>
+          <th>Дата регистрации</th>
+          <th>Замужем</th>
+          <th>Заграничный паспорт ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for passport in passports %}
+        <tr>
+          <td>{{ passport.passport_id }}</td>
+          <td>{{ passport.lastname }}</td>
+          <td>{{ passport.firstname }}</td>
+          <td>{{ passport.surname }}</td>
+          <td>{{ passport.passport_series }}</td>
+          <td>{{ passport.passport_number }}</td>
+          <td>{{ passport.issue_date }}</td>
+          <td>{{ passport.whom_issue }}</td>
+          <td>{{ passport.birth_date }}</td>
+          <td>{{ passport.registration }}</td>
+          <td>{{ passport.is_married_mark }}</td>
+          <td>{{ passport.international_passport_id }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- person_roles -->
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Роль</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for person_role in person_roles %}
+        <tr>
+          <td>{{ person_role.person_role_id }}</td>
+          <td>{{ person_role.person_role_name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- international_passports -->
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Фамилия</th>
+          <th>Имя</th>
+          <th>Отчество</th>
+          <th>Серия заграничного паспорта</th>
+          <th>Номер заграничного паспорта</th>
+          <th>Дата выдачи заграничного паспорта</th>
+          <th>Дата окончания заграничного паспорта</th>
+          <th>Кем выдан заграничный паспорт</th>
+          <th>Дата рождения</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for international_passport in international_passports %}
+        <tr>
+          <td>{{ international_passport.international_passport_id }}</td>
+          <td>{{ international_passport.lastname }}</td>
+          <td>{{ international_passport.firstname }}</td>
+          <td>{{ international_passport.surname }}</td>
+          <td>{{ international_passport.international_passport_series }}</td>
+          <td>{{ international_passport.international_passport_number }}</td>
+          <td>{{ international_passport.international_passport_issue_date }}</td>
+          <td>{{ international_passport.international_passport_end_date }}</td>
+          <td>{{ international_passport.international_passport_whom_issue }}</td>
+          <td>{{ international_passport.birth_date }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- visas -->
+  <div class="block">
+    <table class="table is-striped">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Person ID</th>
+          <th>Страна</th>
+          <th>Дата выдачи визы</th>
+          <th>Дата окончания визы</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for visa in visas %}
+        <tr>
+          <td>{{ visa.visa_id }}</td>
+          <td>{{ visa.international_passport_id }}</td>
+          <td>{{ visa.country }}</td>
+          <td>{{ visa.issue_date }}</td>
+          <td>{{ visa.end_date }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</section>
 {% endblock %}
