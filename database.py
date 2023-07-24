@@ -14,7 +14,7 @@ NAME_DB = os.getenv('NAME_DB')
 PASSWORD_DB = os.getenv('PASSWORD_DB')
 
 
-def execute_read(sql, app):
+def execute_read(sql):
     con = None
     try:
         con = connection()
