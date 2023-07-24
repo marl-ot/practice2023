@@ -2,13 +2,13 @@ from flask import render_template
 from database import execute_read
 
 
-def sql_injection_search_page(request, app):
+def sql_injection_search_page(request):
     search = request.args.get('q')
 
     sql = f"SELECT * FROM persons WHERE TRIM(login) LIKE '%{search}%'"
     # SELECT * FROM persons WHERE TRIM(login) LIKE '%{'; DROP TABLE persons WITH FORCE; --'}%'"
 
-    db_result = execute_read(sql, app)
+    db_result = execute_read(sql)
 
     persons = list(
         map(

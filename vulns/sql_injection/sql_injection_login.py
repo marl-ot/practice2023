@@ -1,9 +1,8 @@
 from flask import render_template
 from database import execute_read
-import hashlib
 
 
-def sql_injection_login_page(request, app):
+def sql_injection_login_page(request):
     return render_template(
         'sql_injection/login.html',
         sql='',
@@ -11,7 +10,7 @@ def sql_injection_login_page(request, app):
     )
 
 
-def sql_injection_login_api(request, app):
+def sql_injection_login_api(request):
     form = request.form
 
     username = form.get('username')
@@ -21,7 +20,7 @@ def sql_injection_login_api(request, app):
     sql = f"SELECT * FROM persons WHERE login='{username}' AND password_hash='{password_hash}'"
     # ' OR 1=1; --
     
-    db_result = execute_read(sql, app)
+    db_result = execute_read(sql)
 
     user = list(
         map(
