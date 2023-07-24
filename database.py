@@ -1,6 +1,8 @@
 
 import os
+import time
 import psycopg2
+from psycopg2 import sql
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -10,6 +12,19 @@ PORT_DB = os.getenv('PORT_DB')
 USER_DB = os.getenv('USER_DB')
 NAME_DB = os.getenv('NAME_DB')
 PASSWORD_DB = os.getenv('PASSWORD_DB')
+
+
+def execute_read(sql, app):
+    con = None
+    try:
+        con = connection()
+        cur = con.cursor()
+        cur.execute(sql)
+        result = cur.fetchall()
+        return result
+    finally:
+        if con is not None:
+            con.close()
 
 
 def connection():
@@ -213,7 +228,6 @@ def data_to_tables():
     # SQL-запрос для заполнения таблицы person_roles
     insert_person_roles_query = "INSERT INTO person_roles (person_role_id, person_role_name) VALUES (%s, %s)"
 
-
     # Данные для заполнения таблицы card_types:
     card_types_data = [
         (1, 'Дебетовая'),
@@ -221,7 +235,6 @@ def data_to_tables():
     ]
     # SQL-запрос для заполнения таблицы card_types
     insert_card_types_query = "INSERT INTO card_types (card_type_id, card_type_name) VALUES (%s, %s)"
-
 
     # Данные для заполнения таблицы card_statuses:
     card_statuses_data = [
@@ -231,7 +244,6 @@ def data_to_tables():
     ]
     # SQL-запрос для заполнения таблицы card_statuses
     insert_card_statuses_query = "INSERT INTO card_statuses (card_status_id, card_status_name) VALUES (%s, %s)"
-
 
     # Данные для заполнения таблицы payment_account_types:
     payment_account_types_data = [
@@ -244,15 +256,15 @@ def data_to_tables():
     # SQL-запрос для заполнения таблицы payment_account_types
     insert_payment_account_types_query = "INSERT INTO payment_account_types (payment_account_type_id, payment_account_type_name) VALUES (%s, %s)"
 
-
     # Данные для заполнения таблицы international_passports
     international_passports_data = [
-        (5001, 'Иванов', 'Неиван', 'Иванович', 'AA', '1234567', '2020-01-01', '2025-01-01', 'МВД РОССИИ', '2000-01-01'),
-        (5002, 'Петр', 'Непетр', 'Петров', 'BB', '7654321', '2021-02-02', '2026-02-02', 'МВД РОССИИ', '2001-02-02'),
+        (5001, 'Иванович', 'Иванов', 'Неиван', 'AA', '1234567',
+         '2020-01-01', '2025-01-01', 'МВД РОССИИ', '2000-01-01'),
+        (5002, 'Петров', 'Петр', 'Непетр', 'BB', '7654321',
+         '2021-02-02', '2026-02-02', 'МВД РОССИИ', '2001-02-02'),
     ]
     # SQL-запрос для заполнения таблицы international_passports
     insert_international_passports_query = "INSERT INTO international_passports (international_passport_id, lastname, firstname, surname, international_passport_series, international_passport_number, international_passport_issue_date, international_passport_end_date, international_passport_whom_issue, birth_date) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-
 
     # Данные для заполнения таблицы visas
     visas_data = [
@@ -262,24 +274,25 @@ def data_to_tables():
     # SQL-запрос для заполнения таблицы visas
     insert_visas_query = "INSERT INTO visas (visa_id, international_passport_id, country, issue_date, end_date) VALUES (%s, %s, %s, %s, %s)"
 
-
     # Данные для заполнения таблицы passports
     passports_data = [
-        (1001, 'Иванов', 'Неиван', 'Иванович', '4501', '123456', '2020-01-01', 'МВД РОССИИ', '2000-01-01', '2020-02-02', True, 5001),
-        (1002, 'Петр', 'Непетр', 'Петрович', '4502', '654321', '2021-02-02', 'МВД РОССИИ', '2001-02-02', '2021-03-03', False, 5002),
+        (1001, 'Иванович', 'Иван', 'Неиван', '4501', '123456', '2020-01-01',
+         'МВД РОССИИ', '2000-01-01', '2020-02-02', True, 5001),
+        (1002, 'Петрович', 'Петр', 'Непетр', '4502', '654321', '2021-02-02',
+         'МВД РОССИИ', '2001-02-02', '2021-03-03', False, 5002),
     ]
     # SQL-запрос для заполнения таблицы passports
     insert_passports_query = "INSERT INTO passports (passport_id, lastname, firstname, surname, passport_series, passport_number, issue_date, whom_issue, birth_date, registration, is_married_mark, international_passport_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
-
     # Данные для заполнения таблицы persons
     persons_data = [
-        (101, 'login_1', 'password_hash_1', 1001, 1234567890, '123-456-783 90', '+7 111-11-11 11', 'ivan_1@example.com', 1, 'secret_word_hash_1'),
-        (102, 'login_2', 'password_hash_2', 1002, 9876543210, '987-654-323 10', '+7 222-22-22 22', 'petr_1@example.com', 2, 'secret_word_hash_2'),
+        (101, 'login1', 'password_hash_1', 1001, 1234567890, '+7 111-11-11 11',
+         '123-456-783 90', 'ivan_1@example.com', 1, 'secret_word_hash_1'),
+        (102, 'login_2', 'password_hash_2', 1002, 9876543210, '+7 222-22-22 22',
+         '987-654-323 10', 'petr_1@example.com', 2, 'secret_word_hash_2'),
     ]
     # SQL-запрос для заполнения таблицы persons
     insert_persons_query = "INSERT INTO persons (person_id, login, password_hash, passport_id, INN, phone_number, SNILS, email, person_role_id, secret_word_hash) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-
 
     # Данные для заполнения таблицы worker_confirms
     worker_confirms_data = [
@@ -289,7 +302,6 @@ def data_to_tables():
     # SQL-запрос для заполнения таблицы worker_confirms
     insert_worker_confirms_query = "INSERT INTO worker_confirms (worker_confirm_id, person_id, is_worker_confirm) VALUES (%s, %s, %s)"
 
-
     # Пример для заполнения таблицы payment_accounts
     payment_accounts_data = [
         (1, 1234567890, 1000.50, 1),
@@ -297,7 +309,6 @@ def data_to_tables():
     ]
     # SQL-запрос для заполнения таблицы payment_accounts
     insert_payment_accounts_query = "INSERT INTO payment_accounts (payment_account_id, payment_account_number, balance, payment_account_type_id) VALUES (%s, %s, %s, %s)"
-
 
     # Данные для заполнения таблицы transactions
     transactions_data = [
@@ -307,7 +318,6 @@ def data_to_tables():
     # SQL-запрос для заполнения таблицы transactions
     insert_transactions_query = "INSERT INTO transactions (transaction_id, transaction_from, transaction_to, worker_confirm_id, amount) VALUES (%s, %s, %s, %s, %s)"
 
-
     # Данные для заполнения таблицы cards
     cards_data = [
         (1, 1111111111111111, '2025-12-31', 'cvv_hash_1', 1, 1, 101, 1, True),
@@ -316,40 +326,57 @@ def data_to_tables():
     # SQL-запрос для заполнения таблицы cards
     insert_cards_query = "INSERT INTO cards (card_id, card_number, end_date, CVV_hash, card_status_id, card_type_id, person_id, payment_account_id, is_active) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
-
     # Добавление данных
     with conn.cursor() as cursor:
         cursor.executemany(insert_person_roles_query, person_roles_data)
         cursor.executemany(insert_card_types_query, card_types_data)
         cursor.executemany(insert_card_statuses_query, card_statuses_data)
-        cursor.executemany(insert_payment_account_types_query, payment_account_types_data)
-        cursor.executemany(insert_international_passports_query, international_passports_data)
+        cursor.executemany(insert_payment_account_types_query,
+                           payment_account_types_data)
+        cursor.executemany(insert_international_passports_query,
+                           international_passports_data)
         cursor.executemany(insert_visas_query, visas_data)
         cursor.executemany(insert_passports_query, passports_data)
         cursor.executemany(insert_persons_query, persons_data)
         cursor.executemany(insert_worker_confirms_query, worker_confirms_data)
-        cursor.executemany(insert_payment_accounts_query, payment_accounts_data)
+        cursor.executemany(insert_payment_accounts_query,
+                           payment_accounts_data)
         cursor.executemany(insert_transactions_query, transactions_data)
         cursor.executemany(insert_cards_query, cards_data)
         conn.commit()
-    
 
     print("[INFO] Данные в таблицы успешно добавлены")
     conn.close()
 
 
-def delete_database(del_db_name):
-    db_params = {
-        "host": HOST_DB,
-        "user": USER_DB,
-        "password": PASSWORD_DB
-    }
+# def delete_database(del_db_name):
+#     db_params = {
+#         "host": HOST_DB,
+#         "user": USER_DB,
+#         "password": PASSWORD_DB,
+#         "keepalives": 1,
+#         "keepalives_idle": 130,
+#         "keepalives_interval": 10,
+#         "keepalives_count": 15,
+#     }
 
-    conn = psycopg2.connect(**db_params)
-    conn.autocommit = True
-    conn = connection()
-    with conn.cursor() as cursor:
-        cursor.execute(f'SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = {del_db_name};')
-        cursor.execute(f'DROP DATABASE IF EXISTS {del_db_name}')
-    conn.close()
-    print(f'[INFO] База данных {del_db_name} успешно удалена')
+#     conn = psycopg2.connect(**db_params)
+
+
+#     conn = connection()
+#     with conn.cursor() as cursor:
+#         cursor.execute(f"SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '{del_db_name}';")
+#         conn.autocommit = True
+#         time.sleep(10)
+#         dbname = sql.Identifier(f'{NAME_DB}')
+#         del_cmd = sql.SQL("DROP DATABASE IF EXISTS {} WITH (FORCE)").format(dbname)
+#         cursor.execute(del_cmd)
+#         time.sleep(10)
+#     conn.close()
+#     print(f'[INFO] База данных {del_db_name} успешно удалена')
+
+
+# delete_database(NAME_DB)
+# create_database(NAME_DB)
+# create_tables()
+# data_to_tables()
